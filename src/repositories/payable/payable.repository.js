@@ -3,7 +3,7 @@ const PrismaService = require('../../services/prisma/prisma.service');
 const _prismaService = PrismaService;
 class PayableRepository {
   async create(payload) {
-    return _prismaService.payable.create({
+    return await _prismaService.payable.create({
       data: payload,
     });
   }

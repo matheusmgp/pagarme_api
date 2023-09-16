@@ -5,7 +5,7 @@ const _payableRepository = PayableRepository;
 class PayableService {
   async create(payload) {
     try {
-      return _payableRepository.create(payload);
+      return await _payableRepository.create(payload);
     } catch (err) {
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
@@ -14,7 +14,7 @@ class PayableService {
     try {
       const availables = await _payableRepository.getAll(PayableStatusEnum.AVAILABLE);
       const waiting = await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS);
-
+      console.log(availables);
       const totalAvailables = availables.reduce((accumulator, object) => {
         return accumulator + object.amount;
       }, 0);

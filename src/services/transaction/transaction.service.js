@@ -24,6 +24,7 @@ class TransactionService {
         });
 
         const payable = await _payableService.create(payableEntity);
+
         if (payable) return transaction;
       }
     } catch (err) {
