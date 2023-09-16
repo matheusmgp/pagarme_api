@@ -14,7 +14,6 @@ class PayableService {
     try {
       const availables = await _payableRepository.getAll(PayableStatusEnum.AVAILABLE);
       const waiting = await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS);
-      console.log(availables);
       const totalAvailables = availables.reduce((accumulator, object) => {
         return accumulator + object.amount;
       }, 0);
