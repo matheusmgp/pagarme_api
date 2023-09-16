@@ -1,6 +1,5 @@
 const { transactionEntityFactory } = require('../../../entities/transaction.entity');
 const TransactionService = require('../../transaction/transaction.service');
-const PayableService = require('../../payable/payable.service');
 const PrismaService = require('../../prisma/prisma.service');
 const app = require('../../../index');
 const request = require('supertest');
