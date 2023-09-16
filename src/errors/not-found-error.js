@@ -1,4 +1,4 @@
-const httpStatusCodes = require('./status-codes/http-status-codes');
+const httpStatusCodes = require('./status-code/http-status-code');
 const BaseError = require('./base-error');
 
 class NotFoundError extends BaseError {
