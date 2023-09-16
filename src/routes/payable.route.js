@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const BaseError = require('../errors/base-error');
-const httpStatusCodes = require('../errors/status-codes/http-status-codes');
+const httpStatusCodes = require('../errors/status-code/http-status-code');
 const PayableController = require('../controllers/payable/payable.controller');
 const { responseHttpSuccess, responseHttpException } = require('../presenters/httpResponse');
 

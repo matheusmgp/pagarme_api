@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const BaseError = require('../errors/base-error');
-const httpStatusCodes = require('../errors/status-codes/http-status-codes');
+const httpStatusCodes = require('../errors/status-code/http-status-code');
 const TransactionController = require('../controllers/transaction/transaction.controller');
 const { responseHttpSuccess, responseHttpException } = require('../presenters/httpResponse');
 const createTransactionSchema = require('../validators/create-transaction.validator');
