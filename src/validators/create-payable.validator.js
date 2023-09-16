@@ -2,7 +2,6 @@ const Joi = require('joi');
 const { responseHttpException } = require('../presenters/httpResponse');
 const httpStatusCodes = require('../errors/status-codes/http-status-codes');
 const createPayableSchema = (req, res, next) => {
-  // create schema object
   const schema = Joi.object({
     transaction_id: Joi.number().required(),
     fee: Joi.number().required(),
