@@ -1,6 +1,6 @@
 const TransactionRepository = require('../../repositories/transaction/transaction.repository');
-const TransactionEntity = require('../../entities/transaction.entity');
-const PayableEntity = require('../../entities/payable.entity');
+const { transactionEntityFactory } = require('../../entities/transaction.entity');
+const { payableEntityFactory } = require('../../entities/payable.entity');
 const PayableService = require('../../services/payable/payable.service');
 const BaseError = require('../../errors/base-error');
 
@@ -10,12 +10,10 @@ class TransactionService {
   async create(payload) {
     const { price, payment_method } = payload;
     try {
-      const transactionEntity = TransactionEntity.transactionEntityFactory(payload);
-
-      const transaction = await _transactionRepository.create(transactionEntity);
+      const transaction = await _transactionRepository.create(transactionEntityFactory(payload));
 
       if (transaction) {
-        const payableEntity = PayableEntity.payableEntityFactory({
+        const payableEntity = payableEntityFactory({
           transaction_id: transaction.id,
           amount: this.calculateFee(payment_method, price),
           payment_date: this.setPaymentDate(payment_method),

@@ -12,17 +12,10 @@ class PayableService {
   }
   async getAll() {
     try {
-      const availables = await _payableRepository.getAll(PayableStatusEnum.AVAILABLE);
-      const waiting = await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS);
-      const totalAvailables = availables.reduce((accumulator, object) => {
-        return accumulator + object.amount;
-      }, 0);
-
-      const totalWaiting = waiting.reduce((accumulator, object) => {
-        return accumulator + object.amount;
-      }, 0);
-
-      return { available: totalAvailables, waiting_funds: totalWaiting };
+      return {
+        available: this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE)),
+        waiting_funds: this.reduce(await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS)),
+      };
     } catch (err) {
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
@@ -33,6 +26,12 @@ class PayableService {
     } catch (err) {
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
+  }
+
+  reduce(array) {
+    return array.reduce((accumulator, object) => {
+      return accumulator + object.amount;
+    }, 0);
   }
 }
 
