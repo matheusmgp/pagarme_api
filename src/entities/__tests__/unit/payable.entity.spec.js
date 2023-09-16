@@ -1,4 +1,4 @@
-const PayableEntity = require('../../payable.entity');
+const { PayableEntity, payableEntityFactory } = require('../../payable.entity');
 
 describe('PayableEntity unit tests', () => {
   let sut;
@@ -15,5 +15,20 @@ describe('PayableEntity unit tests', () => {
       status: 'paid ',
       availability: 'available',
     });
+  });
+  it('should return a instance of PayableEntity', () => {
+    const result = payableEntityFactory({
+      transaction_id: 100,
+      fee: 5,
+      payment_date: new Date(),
+      status: 'waiting_funds',
+      availability: 'waiting_funds',
+    });
+    expect(result).toBeInstanceOf(PayableEntity);
+    expect(result.transaction_id).toEqual(100);
+    expect(result.fee).toEqual(5);
+    expect(result.status).toEqual('waiting_funds');
+    expect(result.availability).toEqual('waiting_funds');
+    expect(result.payment_date).toBeInstanceOf(Date);
   });
 });
