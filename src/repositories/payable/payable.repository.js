@@ -1,4 +1,4 @@
-const PrismaService = require('../services/prisma/prisma.service');
+const PrismaService = require('../../services/prisma/prisma.service');
 
 const _prismaService = PrismaService;
 class PayableRepository {
@@ -16,4 +16,4 @@ class PayableRepository {
   }
 }
 
-module.exports = PayableRepository;
+module.exports = new PayableRepository();
