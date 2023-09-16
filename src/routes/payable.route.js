@@ -29,4 +29,4 @@ routePayable.get('/api/v1/dev/payable/info', async (req, res) => {
     }
   }
 });
-module.exports = { routePayable };
+module.exports = routePayable;

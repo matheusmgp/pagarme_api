@@ -2,20 +2,18 @@ const { TransactionEntity, transactionEntityFactory } = require('../../transacti
 
 describe('TransactionEntity unit tests', () => {
   let sut;
-
   let expires_date = new Date();
   beforeEach(() => {
-    sut = new TransactionEntity(
-      1.0,
-      'Smartband XYZ 3.0',
-      'debit_card',
-      '12345678910',
-      'matheus',
-      new Date(expires_date.getTime() + 150),
-      '855'
-    );
+    sut = transactionEntityFactory({
+      price: 1.0,
+      description: 'Smartband XYZ 3.0',
+      payment_method: 'debit_card',
+      card_number: '12345678910',
+      owner_name: 'matheus',
+      card_expires_date: new Date(expires_date.getTime() + 150),
+      cvv: '855',
+    });
   });
-
   it('toJSON  method', () => {
     expect(sut.toJSON()).toStrictEqual({
       price: 1,

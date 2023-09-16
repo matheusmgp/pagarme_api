@@ -31,4 +31,4 @@ routeTransaction.post('/api/v1/dev/transaction', createTransactionSchema, async 
     }
   }
 });
-module.exports = { routeTransaction };
+module.exports = routeTransaction;
