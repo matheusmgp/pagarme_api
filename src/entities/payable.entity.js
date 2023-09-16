@@ -20,7 +20,7 @@ class PayableEntity extends BaseEntity {
     };
   }
 }
-
-/*const teste = new PayableEntity('456465', 1212.12, '10/10/2024', 'paid', 'available ');
-console.log(teste.toJSON());*/
-module.exports = PayableEntity;
+const payableEntityFactory = (props) => {
+  return new PayableEntity(props.transaction_id, props.fee, props.payment_date, props.status, props.availability);
+};
+module.exports = { PayableEntity, payableEntityFactory };

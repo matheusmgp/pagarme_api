@@ -26,6 +26,16 @@ class TransactionEntity extends BaseEntity {
     return '*'.repeat(this.card_number.length - 4) + this.card_number.slice(-4);
   }
 }
-/*const teste = new TransactionEntity(10.0, 'TESTE TESTE', 'debit_card', '1234567891425', 'matheus', '10/10/2022', '123');
-console.log(teste.toJSON());*/
-module.exports = TransactionEntity;
+
+const transactionEntityFactory = (props) => {
+  return new TransactionEntity(
+    props.price,
+    props.description,
+    props.payment_method,
+    props.card_number,
+    props.owner_name,
+    props.card_expires_date,
+    props.cvv
+  );
+};
+module.exports = { TransactionEntity, transactionEntityFactory };

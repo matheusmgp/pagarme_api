@@ -1,4 +1,4 @@
-const PayableRepository = require('../../repositories/payable.repository');
+const PayableRepository = require('../../repositories/payable/payable.repository');
 
 const _payableRepository = PayableRepository;
 class PayableService {

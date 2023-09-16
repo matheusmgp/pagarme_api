@@ -1,5 +1,3 @@
-const BaseError = require('../../errors/base-error');
-const NotFoundError = require('../../errors/not-found-error');
 const TransactionService = require('../../services/transaction/transaction.service');
 
 const _transactionService = TransactionService;
