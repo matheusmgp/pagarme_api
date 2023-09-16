@@ -4,14 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": " env-cmd -f .env  node src/server.js --watch --no-daemon --node-args=\"-r esm\"",
+    "test:e2e": "env-cmd -f .env.test jest --config ./jest-e2e.json --runInBand",
+    "test:unit": "env-cmd -f .env.test jest  --config ./jest-unit.json --runInBand ",
+    "test:integ": "env-cmd -f .env.test jest --config ./jest-inte.json --runInBand"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.3.1",
+    "class-validator": "^0.14.0",
+    "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "prisma": "^5.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
