@@ -16,11 +16,11 @@ class PayableService {
       const waiting = await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS);
 
       const totalAvailables = availables.reduce((accumulator, object) => {
-        return accumulator + object.fee;
+        return accumulator + object.amount;
       }, 0);
 
       const totalWaiting = waiting.reduce((accumulator, object) => {
-        return accumulator + object.fee;
+        return accumulator + object.amount;
       }, 0);
 
       return { available: totalAvailables, waiting_funds: totalWaiting };

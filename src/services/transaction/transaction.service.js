@@ -17,7 +17,7 @@ class TransactionService {
       if (transaction) {
         const payableEntity = PayableEntity.payableEntityFactory({
           transaction_id: transaction.id,
-          fee: this.calculateFee(payment_method, price),
+          amount: this.calculateFee(payment_method, price),
           payment_date: new Date(),
           status: this.setStatus(payment_method),
           availability: this.setAvailability(payment_method),

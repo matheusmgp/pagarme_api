@@ -4,7 +4,7 @@ const httpStatusCodes = require('../errors/status-codes/http-status-codes');
 const createPayableSchema = (req, res, next) => {
   const schema = Joi.object({
     transaction_id: Joi.number().required(),
-    fee: Joi.number().required(),
+    amount: Joi.number().required(),
     status: Joi.string().required(),
     availability: Joi.string().required(),
     payment_date: Joi.date().required(),

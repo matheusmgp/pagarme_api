@@ -28,7 +28,7 @@ model Payable {
   id             Int         @id @default(autoincrement())
   transaction    Transaction @relation(fields: [transaction_id], references: [id])
   transaction_id Int         @unique
-  fee            Float
+  amount         Float
   payment_date   DateTime
   status         String
   availability   String

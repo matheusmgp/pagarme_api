@@ -1,10 +1,10 @@
 const BaseEntity = require('./base.entity');
 
 class PayableEntity extends BaseEntity {
-  constructor(transaction_id, fee, payment_date, status, availability) {
+  constructor(transaction_id, amount, payment_date, status, availability) {
     super();
     this.transaction_id = transaction_id;
-    this.fee = fee;
+    this.amount = amount;
     this.payment_date = payment_date;
     this.status = status;
     this.availability = availability;
@@ -13,7 +13,7 @@ class PayableEntity extends BaseEntity {
   toJSON() {
     return {
       transaction_id: this.transaction_id,
-      fee: this.fee,
+      amount: this.amount,
       payment_date: this.payment_date,
       status: this.status,
       availability: this.availability,
@@ -21,6 +21,6 @@ class PayableEntity extends BaseEntity {
   }
 }
 const payableEntityFactory = (props) => {
-  return new PayableEntity(props.transaction_id, props.fee, props.payment_date, props.status, props.availability);
+  return new PayableEntity(props.transaction_id, props.amount, props.payment_date, props.status, props.availability);
 };
 module.exports = { PayableEntity, payableEntityFactory };
