@@ -28,6 +28,13 @@ class PayableService {
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
   }
+  async getAllInfo() {
+    try {
+      return await _payableRepository.getAllInfo();
+    } catch (err) {
+      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+    }
+  }
 }
 
 module.exports = new PayableService();

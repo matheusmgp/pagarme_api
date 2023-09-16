@@ -5,6 +5,9 @@ class PayableController {
   async getAll() {
     return await _payableService.getAll();
   }
+  async getAllInfo() {
+    return await _payableService.getAllInfo();
+  }
 }
 
 module.exports = new PayableController();

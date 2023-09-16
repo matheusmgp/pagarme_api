@@ -18,7 +18,7 @@ class TransactionService {
         const payableEntity = PayableEntity.payableEntityFactory({
           transaction_id: transaction.id,
           amount: this.calculateFee(payment_method, price),
-          payment_date: new Date(),
+          payment_date: this.setPaymentDate(payment_method),
           status: this.setStatus(payment_method),
           availability: this.setAvailability(payment_method),
         });
@@ -41,6 +41,12 @@ class TransactionService {
 
   setStatus(paymentmethod) {
     return paymentmethod === 'debit_card' ? 'paid' : 'waiting_funds';
+  }
+  setPaymentDate(paymentmethod) {
+    const paymentDate = new Date();
+    const days = 30;
+    paymentDate.setDate(paymentDate.getDate() + days);
+    return paymentmethod === 'debit_card' ? new Date() : paymentDate;
   }
   calculateFee(paymentmethod, transactionPrice) {
     if (paymentmethod === 'debit_card') return parseFloat(transactionPrice) - parseFloat(transactionPrice) * 0.03;

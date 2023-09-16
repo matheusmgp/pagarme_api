@@ -18,4 +18,15 @@ routePayable.get('/api/v1/dev/payable', async (req, res) => {
     }
   }
 });
+routePayable.get('/api/v1/dev/payable/info', async (req, res) => {
+  try {
+    responseHttpSuccess(await _controller.getAllInfo(), res);
+  } catch (err) {
+    if (err instanceof BaseError) {
+      responseHttpException(err.message, req.method, res, err.statusCode);
+    } else {
+      responseHttpException(err.message, req.method, res, httpStatusCodes.INTERNAL_SERVER);
+    }
+  }
+});
 module.exports = { routePayable };

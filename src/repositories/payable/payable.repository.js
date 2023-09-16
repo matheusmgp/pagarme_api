@@ -17,6 +17,13 @@ class PayableRepository {
       },
     });
   }
+  async getAllInfo() {
+    return await _prismaService.payable.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+    });
+  }
 }
 
 module.exports = new PayableRepository();
