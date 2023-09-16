@@ -7,8 +7,11 @@ class PayableRepository {
       data: payload,
     });
   }
-  async getAll() {
+  async getAll(availability) {
     return await _prismaService.payable.findMany({
+      where: {
+        availability,
+      },
       orderBy: {
         id: 'desc',
       },
