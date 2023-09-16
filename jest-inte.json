@@ -2,5 +2,5 @@
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
   "testEnvironment": "node",
-  "testRegex": ".inte.test.js$"
+  "testRegex": ".inte.spec.js$"
 }

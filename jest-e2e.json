@@ -2,5 +2,5 @@
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
   "testEnvironment": "node",
-  "testRegex": ".e2e.test.js$"
+  "testRegex": ".e2e.spec.js$"
 }

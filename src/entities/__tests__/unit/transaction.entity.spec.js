@@ -16,7 +16,6 @@ describe('TransactionEntity unit tests', () => {
   });
 
   it('toJSON  method', () => {
-    console.log(sut.toJSON());
     expect(sut.toJSON()).toStrictEqual({
       price: 1,
       description: 'Smartband XYZ 3.0',
