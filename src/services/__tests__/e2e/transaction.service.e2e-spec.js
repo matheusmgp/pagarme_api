@@ -41,19 +41,15 @@ describe('Transaction e2e tests', () => {
   });
   it('should set 5% of fee when using credit_card', async () => {
     await TransactionService.create({ ...entity, payment_method: 'credit_card' });
-    const response = await request(app)
-      .get('/api/v1/dev/payable')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+    const response = await request(app).get('/api/v1/dev/payable');
+
     expect(response.statusCode).toBe(200);
     expect(response.body).toStrictEqual({ available: 0, waiting_funds: 95 });
   });
   it('should set 3% of fee when using debit_card', async () => {
     await TransactionService.create({ ...entity, payment_method: 'debit_card' });
-    const response = await request(app)
-      .get('/api/v1/dev/payable')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+    const response = await request(app).get('/api/v1/dev/payable');
+
     expect(response.statusCode).toBe(200);
     expect(response.body).toStrictEqual({ available: 97, waiting_funds: 0 });
   });
