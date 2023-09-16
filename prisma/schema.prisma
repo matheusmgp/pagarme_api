@@ -15,6 +15,7 @@ model Transaction {
   price             Float
   description       String
   payment_method    String
+  card_number       String
   owner_name        String
   card_expires_date DateTime
   cvv               Int
@@ -27,7 +28,7 @@ model Payable {
   id             Int         @id @default(autoincrement())
   transaction    Transaction @relation(fields: [transaction_id], references: [id])
   transaction_id Int         @unique
-  fee            Float
+  amount         Float
   payment_date   DateTime
   status         String
   availability   String
