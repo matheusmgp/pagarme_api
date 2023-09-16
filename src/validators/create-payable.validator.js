@@ -1,19 +1,14 @@
 const Joi = require('joi');
 const { responseHttpException } = require('../presenters/httpResponse');
 const httpStatusCodes = require('../errors/status-code/http-status-code');
+const payableSchema = require('./schemas/payable.schema');
 const createPayableSchema = (req, res, next) => {
-  const schema = Joi.object({
-    transaction_id: Joi.number().required(),
-    amount: Joi.number().required(),
-    status: Joi.string().required(),
-    availability: Joi.string().required(),
-    payment_date: Joi.date().required(),
-  });
+  const schema = payableSchema;
 
   const options = {
-    abortEarly: false, // include all errors
-    allowUnknown: true, // ignore unknown props
-    stripUnknown: true, // remove unknown props
+    abortEarly: false,
+    allowUnknown: true,
+    stripUnknown: true,
   };
 
   const { error, value } = schema.validate(req.body, options);
