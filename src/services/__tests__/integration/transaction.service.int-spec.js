@@ -2,7 +2,7 @@ const { transactionEntityFactory } = require('../../../entities/transaction.enti
 const TransactionService = require('../../transaction/transaction.service');
 const PayableService = require('../../payable/payable.service');
 const PrismaService = require('../../prisma/prisma.service');
-describe('TransactionEntity integration tests', () => {
+describe('Transaction integration tests', () => {
   let expires_date = new Date();
   let entity;
   beforeAll(() => {

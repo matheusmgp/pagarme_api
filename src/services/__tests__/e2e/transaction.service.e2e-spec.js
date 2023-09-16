@@ -3,7 +3,7 @@ const TransactionService = require('../../transaction/transaction.service');
 const PrismaService = require('../../prisma/prisma.service');
 const app = require('../../../index');
 const request = require('supertest');
-describe('TransactionEntity integration tests', () => {
+describe('Transaction e2e tests', () => {
   let expires_date = new Date();
   let entity;
   beforeAll(() => {
