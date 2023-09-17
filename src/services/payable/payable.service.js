@@ -23,7 +23,7 @@ class PayableService {
       };
     } catch (err) {
       if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`, 500);
+        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
       }
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
@@ -33,7 +33,7 @@ class PayableService {
       return await _payableRepository.getAllInfo();
     } catch (err) {
       if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`, 500);
+        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
       }
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }

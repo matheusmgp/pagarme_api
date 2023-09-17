@@ -1,4 +1,3 @@
-const Joi = require('joi');
 const { responseHttpException } = require('../presenters/httpResponse');
 const httpStatusCodes = require('../errors/status-code/http-status-code');
 const payableSchema = require('./schemas/payable.schema');
