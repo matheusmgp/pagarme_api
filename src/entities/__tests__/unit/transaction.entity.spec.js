@@ -1,10 +1,10 @@
-const { TransactionEntity, transactionEntityFactory } = require('../../transaction.entity');
+const { TransactionEntity } = require('../../transaction.entity');
 
 describe('TransactionEntity unit tests', () => {
   let sut;
   let expires_date = new Date();
   beforeEach(() => {
-    sut = transactionEntityFactory({
+    sut = TransactionEntity.createEntity({
       price: 1.0,
       description: 'Smartband XYZ 3.0',
       payment_method: 'debit_card',
@@ -29,7 +29,7 @@ describe('TransactionEntity unit tests', () => {
     expect(sut.maskCardNumber()).toStrictEqual('*******8910');
   });
   it('should return a instance of TransactionEntity', () => {
-    const result = transactionEntityFactory({
+    const result = TransactionEntity.createEntity({
       price: 100,
       description: 'description',
       payment_method: 'debit_card',

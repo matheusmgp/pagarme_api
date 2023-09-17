@@ -1,8 +1,10 @@
 const TransactionRepository = require('../../repositories/transaction/transaction.repository');
-const { transactionEntityFactory } = require('../../entities/transaction.entity');
-const { payableEntityFactory } = require('../../entities/payable.entity');
+const { TransactionEntity } = require('../../entities/transaction.entity');
+const { PayableEntity } = require('../../entities/payable.entity');
 const PayableService = require('../../services/payable/payable.service');
 const BaseError = require('../../errors/base-error');
+const { PrismaClientInitializationError, PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const DatabaseError = require('../../errors/database-error');
 
 const _transactionRepository = TransactionRepository;
 const _payableService = PayableService;
@@ -10,10 +12,10 @@ class TransactionService {
   async create(payload) {
     const { price, payment_method } = payload;
     try {
-      const transaction = await _transactionRepository.create(transactionEntityFactory(payload));
+      const transaction = await _transactionRepository.create(TransactionEntity.createEntity(payload));
 
       if (transaction) {
-        const payableEntity = payableEntityFactory({
+        const payableEntity = PayableEntity.createEntity({
           transaction_id: transaction.id,
           amount: this.calculateFee(payment_method, price),
           payment_date: this.setPaymentDate(payment_method),
@@ -26,13 +28,19 @@ class TransactionService {
         if (payable) return transaction;
       }
     } catch (err) {
-      throw new BaseError(`Houve um problema - ${err.message}`, 422);
+      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
+        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`, 500);
+      }
+      throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
   }
   async getAll() {
     try {
       return await _transactionRepository.getAll();
     } catch (err) {
+      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
+        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`, 500);
+      }
       throw new BaseError(`Houve um problema - ${err.message}`, 500);
     }
   }

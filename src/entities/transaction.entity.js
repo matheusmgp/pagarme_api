@@ -25,17 +25,16 @@ class TransactionEntity extends BaseEntity {
   maskCardNumber() {
     return '*'.repeat(this.card_number.length - 4) + this.card_number.slice(-4);
   }
+  static createEntity = (props) => {
+    return new TransactionEntity(
+      props.price,
+      props.description,
+      props.payment_method,
+      props.card_number,
+      props.owner_name,
+      props.card_expires_date,
+      props.cvv
+    );
+  };
 }
-
-const transactionEntityFactory = (props) => {
-  return new TransactionEntity(
-    props.price,
-    props.description,
-    props.payment_method,
-    props.card_number,
-    props.owner_name,
-    props.card_expires_date,
-    props.cvv
-  );
-};
-module.exports = { TransactionEntity, transactionEntityFactory };
+module.exports = { TransactionEntity };

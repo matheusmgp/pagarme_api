@@ -9,7 +9,7 @@ const _controller = PayableController;
 
 routePayable.get('/api/v1/dev/payable', async (req, res) => {
   try {
-    responseHttpSuccess(await _controller.getAll(), res);
+    responseHttpSuccess(await _controller.getAll(), res, req);
   } catch (err) {
     if (err instanceof BaseError) {
       responseHttpException(err.message, req.method, res, err.statusCode);
@@ -20,7 +20,7 @@ routePayable.get('/api/v1/dev/payable', async (req, res) => {
 });
 routePayable.get('/api/v1/dev/payable/info', async (req, res) => {
   try {
-    responseHttpSuccess(await _controller.getAllInfo(), res);
+    responseHttpSuccess(await _controller.getAllInfo(), res, req);
   } catch (err) {
     if (err instanceof BaseError) {
       responseHttpException(err.message, req.method, res, err.statusCode);

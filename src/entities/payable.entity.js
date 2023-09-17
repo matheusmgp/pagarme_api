@@ -19,8 +19,8 @@ class PayableEntity extends BaseEntity {
       availability: this.availability,
     };
   }
+  static createEntity = (props) => {
+    return new PayableEntity(props.transaction_id, props.amount, props.payment_date, props.status, props.availability);
+  };
 }
-const payableEntityFactory = (props) => {
-  return new PayableEntity(props.transaction_id, props.amount, props.payment_date, props.status, props.availability);
-};
-module.exports = { PayableEntity, payableEntityFactory };
+module.exports = { PayableEntity };

@@ -1,4 +1,4 @@
-const { PayableEntity, payableEntityFactory } = require('../../payable.entity');
+const { PayableEntity } = require('../../payable.entity');
 
 describe('PayableEntity unit tests', () => {
   let sut;
@@ -17,7 +17,7 @@ describe('PayableEntity unit tests', () => {
     });
   });
   it('should return a instance of PayableEntity', () => {
-    const result = payableEntityFactory({
+    const result = PayableEntity.createEntity({
       transaction_id: 100,
       amount: 5,
       payment_date: new Date(),
