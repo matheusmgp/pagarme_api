@@ -31,7 +31,7 @@ $ npx prisma migrate dev
 
 ```bash
 # watch mode
-$ npm run start
+$ npm start
 ```
 
 ## Testing the app
