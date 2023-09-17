@@ -10,7 +10,7 @@ const _controller = TransactionController;
 
 routeTransaction.get('/api/v1/dev/transaction', async (req, res) => {
   try {
-    responseHttpSuccess(await _controller.getAll(), res);
+    responseHttpSuccess(await _controller.getAll(), res, req);
   } catch (err) {
     if (err instanceof BaseError) {
       responseHttpException(err.message, req.method, res, err.statusCode);
@@ -22,7 +22,7 @@ routeTransaction.get('/api/v1/dev/transaction', async (req, res) => {
 
 routeTransaction.post('/api/v1/dev/transaction', createTransactionSchema, async (req, res) => {
   try {
-    responseHttpSuccess(await _controller.create(req.body), res);
+    responseHttpSuccess(await _controller.create(req.body), res, req);
   } catch (err) {
     if (err instanceof BaseError) {
       responseHttpException(err.message, req.method, res, err.statusCode);
