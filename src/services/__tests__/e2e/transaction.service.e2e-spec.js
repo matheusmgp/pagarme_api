@@ -1,4 +1,4 @@
-const { transactionEntityFactory } = require('../../../entities/transaction.entity');
+const { TransactionEntity } = require('../../../entities/transaction.entity');
 const TransactionService = require('../../transaction/transaction.service');
 const PrismaService = require('../../prisma/prisma.service');
 const app = require('../../../index');
@@ -7,7 +7,7 @@ describe('Transaction e2e tests', () => {
   let expires_date = new Date();
   let entity;
   beforeAll(() => {
-    entity = transactionEntityFactory({
+    entity = TransactionEntity.createEntity({
       price: 100.0,
       description: 'Smartband XYZ 3.0',
       payment_method: 'debit_card',
