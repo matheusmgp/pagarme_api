@@ -1,6 +1,6 @@
 const TransactionService = require('../../transaction/transaction.service');
 
-describe('Transaction unit tests', () => {
+describe('TransactionService unit tests', () => {
   it('should set status to paid', async () => {
     const status = await TransactionService.setStatus('debit_card');
     expect(status).toStrictEqual('paid');
