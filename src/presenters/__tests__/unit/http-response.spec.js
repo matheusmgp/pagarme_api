@@ -16,11 +16,11 @@ describe('Presenter unit tests', () => {
     });
   });
   it('HttpExceptionResponse class', () => {
-    const httpExceptionResponse = new HttpExceptionResponse(200, { data: 'error' }, 'GET');
+    const httpExceptionResponse = new HttpExceptionResponse(500, { data: 'error' }, 'GET');
     expect(httpExceptionResponse).toBeInstanceOf(HttpExceptionResponse);
     expect(httpExceptionResponse.message).toEqual({ data: 'error' });
     expect(httpExceptionResponse.method).toEqual('GET');
-    expect(httpExceptionResponse.statusCode).toEqual(200);
+    expect(httpExceptionResponse.statusCode).toEqual(500);
     expect(httpExceptionResponse.timestamp).not.toBeNull();
     expect(httpExceptionResponse.toJSON()).toEqual({
       message: { data: 'error' },
