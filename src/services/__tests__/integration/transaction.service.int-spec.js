@@ -2,6 +2,7 @@ const { TransactionEntity } = require('../../../entities/transaction.entity');
 const TransactionService = require('../../transaction/transaction.service');
 const PayableService = require('../../payable/payable.service');
 const PrismaService = require('../../prisma/prisma.service');
+const CardEnum = require('../../../utils/card.enum');
 describe('Transaction integration tests', () => {
   let expires_date = new Date();
   let entity;
@@ -9,7 +10,7 @@ describe('Transaction integration tests', () => {
     entity = TransactionEntity.createEntity({
       price: 100.0,
       description: 'Smartband XYZ 3.0',
-      payment_method: 'debit_card',
+      payment_method: CardEnum.DEBIT,
       card_number: '12345678910',
       owner_name: 'matheus',
       card_expires_date: new Date(expires_date.getTime() + 150),
@@ -26,7 +27,7 @@ describe('Transaction integration tests', () => {
       id: expect.any(Number),
       price: 100,
       description: 'Smartband XYZ 3.0',
-      payment_method: 'debit_card',
+      payment_method: CardEnum.DEBIT,
       card_number: '*******8910',
       owner_name: 'matheus',
       card_expires_date: expect.any(Date),
@@ -34,12 +35,12 @@ describe('Transaction integration tests', () => {
     });
   });
   it('should set 5% of fee when using credit_card', async () => {
-    await TransactionService.create({ ...entity, payment_method: 'credit_card' });
+    await TransactionService.create({ ...entity, payment_method: CardEnum.CREDIT });
     const payable = await PayableService.getAll();
     expect(payable).toStrictEqual({ available: 0, waiting_funds: 95 });
   });
   it('should set 3% of fee when using debit_card', async () => {
-    await TransactionService.create({ ...entity, payment_method: 'debit_card' });
+    await TransactionService.create({ ...entity, payment_method: CardEnum.DEBIT });
     const payable = await PayableService.getAll();
     expect(payable).toStrictEqual({ available: 97, waiting_funds: 0 });
   });
