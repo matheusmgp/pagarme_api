@@ -5,7 +5,7 @@ const PayableService = require('../../services/payable/payable.service');
 const BaseError = require('../../errors/base-error');
 const { PrismaClientInitializationError, PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 const DatabaseError = require('../../errors/database-error');
-
+const CardEnum = require('../../utils/card.enum');
 const _transactionRepository = TransactionRepository;
 const _payableService = PayableService;
 class TransactionService {
@@ -46,20 +46,20 @@ class TransactionService {
   }
 
   setStatus(paymentmethod) {
-    return paymentmethod === 'debit_card' ? 'paid' : 'waiting_funds';
+    return paymentmethod === CardEnum.DEBIT ? 'paid' : 'waiting_funds';
   }
   setPaymentDate(paymentmethod) {
     const paymentDate = new Date();
     const days = 30;
     paymentDate.setDate(paymentDate.getDate() + days);
-    return paymentmethod === 'debit_card' ? new Date() : paymentDate;
+    return paymentmethod === CardEnum.DEBIT ? new Date() : paymentDate;
   }
   calculateFee(paymentmethod, transactionPrice) {
-    if (paymentmethod === 'debit_card') return parseFloat(transactionPrice) - parseFloat(transactionPrice) * 0.03;
+    if (paymentmethod === CardEnum.DEBIT) return parseFloat(transactionPrice) - parseFloat(transactionPrice) * 0.03;
     else return parseFloat(transactionPrice) - parseFloat(transactionPrice) * 0.05;
   }
   setAvailability(paymentmethod) {
-    return paymentmethod === 'debit_card' ? 'available' : 'waiting_funds';
+    return paymentmethod === CardEnum.DEBIT ? 'available' : 'waiting_funds';
   }
 }
 

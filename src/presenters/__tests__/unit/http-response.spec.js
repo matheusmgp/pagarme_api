@@ -25,7 +25,7 @@ describe('Presenter unit tests', () => {
     expect(httpExceptionResponse.toJSON()).toEqual({
       message: { data: 'error' },
       method: 'GET',
-      statusCode: 200,
+      statusCode: 500,
       timestamp: expect.any(String),
     });
   });

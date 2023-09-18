@@ -1,8 +1,8 @@
 const PayableService = require('../../payable/payable.service');
 
 describe('PayableService unit tests', () => {
-  it('should return the sum', async () => {
-    let amount_ = await PayableService.reduce([
+  it('should return the sum', () => {
+    let amount_ = PayableService.reduce([
       {
         amount: 1,
       },
@@ -14,7 +14,7 @@ describe('PayableService unit tests', () => {
       },
     ]);
     expect(amount_).toStrictEqual(3);
-    amount_ = await PayableService.reduce([
+    amount_ = PayableService.reduce([
       {
         amount: 10,
       },
@@ -26,7 +26,7 @@ describe('PayableService unit tests', () => {
       },
     ]);
     expect(amount_).toStrictEqual(30);
-    amount_ = await PayableService.reduce([
+    amount_ = PayableService.reduce([
       {
         amount: 1032,
       },
@@ -38,7 +38,7 @@ describe('PayableService unit tests', () => {
       },
     ]);
     expect(amount_).toStrictEqual(158012);
-    amount_ = await PayableService.reduce([
+    amount_ = PayableService.reduce([
       {
         amount: 100000,
       },

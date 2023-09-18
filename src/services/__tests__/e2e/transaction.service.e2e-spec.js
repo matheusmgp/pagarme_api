@@ -3,6 +3,7 @@ const TransactionService = require('../../transaction/transaction.service');
 const PrismaService = require('../../prisma/prisma.service');
 const app = require('../../../index');
 const request = require('supertest');
+const CardEnum = require('../../../utils/card.enum');
 describe('Transaction e2e tests', () => {
   let expires_date = new Date();
   let entity;
@@ -10,7 +11,7 @@ describe('Transaction e2e tests', () => {
     entity = TransactionEntity.createEntity({
       price: 100.0,
       description: 'Smartband XYZ 3.0',
-      payment_method: 'debit_card',
+      payment_method: CardEnum.DEBIT,
       card_number: '12345678910',
       owner_name: 'matheus',
       card_expires_date: new Date(expires_date.getTime() + 150),
@@ -34,7 +35,7 @@ describe('Transaction e2e tests', () => {
         id: expect.any(Number),
         price: 100,
         description: 'Smartband XYZ 3.0',
-        payment_method: 'debit_card',
+        payment_method: CardEnum.DEBIT,
         card_number: '*******8910',
         owner_name: 'matheus',
         card_expires_date: expect.any(String),
@@ -45,7 +46,7 @@ describe('Transaction e2e tests', () => {
     });
   });
   it('should set 5% of fee when using credit_card', async () => {
-    await TransactionService.create({ ...entity, payment_method: 'credit_card' });
+    await TransactionService.create({ ...entity, payment_method: CardEnum.CREDIT });
     const response = await request(app).get('/api/v1/dev/payable');
     expect(response.statusCode).toBe(200);
     expect(response.body).toStrictEqual({
@@ -56,7 +57,7 @@ describe('Transaction e2e tests', () => {
     });
   });
   it('should set 3% of fee when using debit_card', async () => {
-    await TransactionService.create({ ...entity, payment_method: 'debit_card' });
+    await TransactionService.create({ ...entity, payment_method: CardEnum.DEBIT });
     const response = await request(app).get('/api/v1/dev/payable');
 
     expect(response.statusCode).toBe(200);
