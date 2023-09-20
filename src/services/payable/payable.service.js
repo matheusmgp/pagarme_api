@@ -4,8 +4,10 @@ const PayableRepository = require('../../repositories/payable/payable.repository
 const PayableStatusEnum = require('../../utils/payable-status.enum');
 const { PrismaClientInitializationError, PrismaClientKnownRequestError } = require('@prisma/client');
 const _payableRepository = PayableRepository;
+const Logger = require('../../logger/logger');
 class PayableService {
   async create(payload) {
+    Logger.log('PayableService [CREATE]', payload);
     try {
       return await _payableRepository.create(payload);
     } catch (err) {
@@ -16,6 +18,7 @@ class PayableService {
     }
   }
   async getAll() {
+    Logger.log('PayableService [GETALL]');
     try {
       return {
         available: this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE)),
@@ -29,6 +32,7 @@ class PayableService {
     }
   }
   async getAllInfo() {
+    Logger.log('PayableService [GETALLINFO]');
     try {
       return await _payableRepository.getAllInfo();
     } catch (err) {
