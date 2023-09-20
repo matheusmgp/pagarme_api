@@ -10,20 +10,21 @@ class TransactionEntity extends BaseEntity {
     this.owner_name = owner_name;
     this.card_expires_date = card_expires_date;
     this.cvv = cvv;
+    this.maskCardNumber();
   }
   toJSON() {
     return {
       price: this.price,
       description: this.description,
       payment_method: this.payment_method,
-      card_number: this.maskCardNumber(),
+      card_number: this.card_number,
       owner_name: this.owner_name,
       card_expires_date: this.card_expires_date,
       cvv: this.cvv,
     };
   }
   maskCardNumber() {
-    return '*'.repeat(this.card_number.length - 4) + this.card_number.slice(-4);
+    this.card_number = '*'.repeat(this.card_number.length - 4) + this.card_number.slice(-4);
   }
   static createEntity = (props) => {
     return new TransactionEntity(

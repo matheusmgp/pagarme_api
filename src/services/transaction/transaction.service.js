@@ -13,7 +13,6 @@ class TransactionService {
     const { price, payment_method } = payload;
     try {
       const transaction = await _transactionRepository.create(TransactionEntity.createEntity(payload));
-
       if (transaction) {
         const payableEntity = PayableEntity.createEntity({
           transaction_id: transaction.id,
