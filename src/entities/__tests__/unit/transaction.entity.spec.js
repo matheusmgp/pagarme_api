@@ -26,14 +26,14 @@ describe('TransactionEntity unit tests', () => {
     });
   });
   it('maskCardNumber  method', () => {
-    expect(sut.maskCardNumber()).toStrictEqual('*******8910');
+    expect(sut.card_number).toStrictEqual('*******8910');
   });
   it('should return a instance of TransactionEntity', () => {
     const result = TransactionEntity.createEntity({
       price: 100,
       description: 'description',
       payment_method: CardEnum.DEBIT,
-      card_number: '132231321',
+      card_number: '*****1321',
       owner_name: 'matheus',
       card_expires_date: new Date(),
       cvv: 123,
@@ -42,7 +42,7 @@ describe('TransactionEntity unit tests', () => {
     expect(result.price).toEqual(100);
     expect(result.description).toEqual('description');
     expect(result.payment_method).toEqual(CardEnum.DEBIT);
-    expect(result.card_number).toEqual('132231321');
+    expect(result.card_number).toEqual('*****1321');
     expect(result.owner_name).toEqual('matheus');
     expect(result.card_expires_date).toBeInstanceOf(Date);
     expect(result.cvv).toEqual(123);

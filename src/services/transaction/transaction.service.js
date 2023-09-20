@@ -8,12 +8,13 @@ const DatabaseError = require('../../errors/database-error');
 const CardEnum = require('../../utils/card.enum');
 const _transactionRepository = TransactionRepository;
 const _payableService = PayableService;
+const Logger = require('../../logger/logger');
 class TransactionService {
   async create(payload) {
+    Logger.log('TransactionService [CREATE]', payload);
     const { price, payment_method } = payload;
     try {
       const transaction = await _transactionRepository.create(TransactionEntity.createEntity(payload));
-
       if (transaction) {
         const payableEntity = PayableEntity.createEntity({
           transaction_id: transaction.id,
@@ -35,6 +36,7 @@ class TransactionService {
     }
   }
   async getAll() {
+    Logger.log('TransactionService [GETALL]');
     try {
       return await _transactionRepository.getAll();
     } catch (err) {

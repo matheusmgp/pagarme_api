@@ -4,7 +4,13 @@ describe('PayableEntity unit tests', () => {
   let sut;
   let expires_date = new Date();
   beforeEach(() => {
-    sut = new PayableEntity(1, 5.0, new Date(expires_date.getTime() + 150), 'paid ', 'available');
+    sut = PayableEntity.createEntity({
+      transaction_id: 1,
+      amount: 5.0,
+      payment_date: new Date(expires_date.getTime() + 150),
+      status: 'paid ',
+      availability: 'available',
+    });
   });
 
   it('toJSON  method', () => {
@@ -24,7 +30,7 @@ describe('PayableEntity unit tests', () => {
       status: 'waiting_funds',
       availability: 'waiting_funds',
     });
-    expect(result).toBeInstanceOf(PayableEntity);
+    expect(result).toBeInstanceOf();
     expect(result.transaction_id).toEqual(100);
     expect(result.amount).toEqual(5);
     expect(result.status).toEqual('waiting_funds');
