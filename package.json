@@ -7,7 +7,8 @@
     "start": " env-cmd -f .env pm2 start src/server.js --watch --no-daemon ",
     "test:e2e": "env-cmd -f .env.test jest --config ./jest-e2e.json --runInBand",
     "test:unit": "env-cmd -f .env.test jest  --config ./jest-unit.json --runInBand ",
-    "test:int": "env-cmd -f .env.test jest --config ./jest-inte.json --runInBand"
+    "test:int": "env-cmd -f .env.test jest --config ./jest-inte.json --runInBand",
+    "test:all": "env-cmd -f .env.test jest  --runInBand"
   },
   "keywords": [],
   "author": "",
