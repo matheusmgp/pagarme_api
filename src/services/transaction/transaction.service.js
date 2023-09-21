@@ -2,9 +2,8 @@ const TransactionRepository = require('../../repositories/transaction/transactio
 const { TransactionEntity } = require('../../entities/transaction.entity');
 const { PayableEntity } = require('../../entities/payable.entity');
 const PayableService = require('../../services/payable/payable.service');
-const BaseError = require('../../errors/base-error');
-const { PrismaClientInitializationError, PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
-const DatabaseError = require('../../errors/database-error');
+const { DatabaseError, DatabaseUnknowError } = require('../../errors/database-error');
+const { BadRequestError } = require('../../errors/bad-request-error');
 const CardEnum = require('../../utils/card.enum');
 const _transactionRepository = TransactionRepository;
 const _payableService = PayableService;
@@ -15,24 +14,20 @@ class TransactionService {
     const { price, payment_method } = payload;
     try {
       const transaction = await _transactionRepository.create(TransactionEntity.createEntity(payload));
-      if (transaction) {
-        const payableEntity = PayableEntity.createEntity({
-          transaction_id: transaction.id,
-          amount: this.calculateFee(payment_method, price),
-          payment_date: this.setPaymentDate(payment_method),
-          status: this.setStatus(payment_method),
-          availability: this.setAvailability(payment_method),
-        });
 
-        const payable = await _payableService.create(payableEntity);
+      const payableEntity = PayableEntity.createEntity({
+        transaction_id: transaction.id,
+        amount: this.calculateFee(payment_method, price),
+        payment_date: this.setPaymentDate(payment_method),
+        status: this.setStatus(payment_method),
+        availability: this.setAvailability(payment_method),
+      });
 
-        if (payable) return transaction;
-      }
+      await _payableService.create(payableEntity);
+
+      return transaction;
     } catch (err) {
-      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
-      }
-      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+      this.handleError(err);
     }
   }
   async getAll() {
@@ -40,10 +35,7 @@ class TransactionService {
     try {
       return await _transactionRepository.getAll();
     } catch (err) {
-      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
-      }
-      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+      this.handleError(err);
     }
   }
 
@@ -62,6 +54,15 @@ class TransactionService {
   }
   setAvailability(paymentmethod) {
     return paymentmethod === CardEnum.DEBIT ? 'available' : 'waiting_funds';
+  }
+  handleError(err) {
+    if (err instanceof DatabaseError) {
+      throw new DatabaseError(err.message, err.cause);
+    }
+    if (err instanceof DatabaseUnknowError) {
+      throw new DatabaseUnknowError(`Houve um problema`, err.cause);
+    }
+    throw new BadRequestError(`Houve um problema`, err.cause);
   }
 }
 

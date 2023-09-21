@@ -6,5 +6,10 @@ class DatabaseError extends BaseError {
     super(message, statusCode);
   }
 }
+class DatabaseUnknowError extends BaseError {
+  constructor(message, statusCode = httpStatusCodes.INTERNAL_SERVER) {
+    super(message, statusCode);
+  }
+}
 
-module.exports = DatabaseError;
+module.exports = { DatabaseError, DatabaseUnknowError };
