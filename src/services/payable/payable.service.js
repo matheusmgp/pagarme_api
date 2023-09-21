@@ -1,34 +1,27 @@
-const BaseError = require('../../errors/base-error');
-const DatabaseError = require('../../errors/database-error');
+const { DatabaseError, DatabaseUnknowError } = require('../../errors/database-error');
 const PayableRepository = require('../../repositories/payable/payable.repository');
 const PayableStatusEnum = require('../../utils/payable-status.enum');
-const { PrismaClientInitializationError, PrismaClientKnownRequestError } = require('@prisma/client');
 const _payableRepository = PayableRepository;
 const Logger = require('../../logger/logger');
+const { BadRequestError } = require('../../errors/bad-request-error');
 class PayableService {
   async create(payload) {
     Logger.log('PayableService [CREATE]', payload);
     try {
       return await _payableRepository.create(payload);
     } catch (err) {
-      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
-      }
-      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+      this.handleError(err);
     }
   }
   async getAll() {
     Logger.log('PayableService [GETALL]');
     try {
       return {
-        available: this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE)),
-        waiting_funds: this.reduce(await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS)),
+        available: this.roundNumber(this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE))),
+        waiting_funds: this.roundNumber(this.reduce(await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS))),
       };
     } catch (err) {
-      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
-      }
-      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+      this.handleError(err);
     }
   }
   async getAllInfo() {
@@ -36,10 +29,7 @@ class PayableService {
     try {
       return await _payableRepository.getAllInfo();
     } catch (err) {
-      if (err instanceof PrismaClientInitializationError || err instanceof PrismaClientKnownRequestError) {
-        throw new DatabaseError(`Can't reach database server,Server has closed the connection.`);
-      }
-      throw new BaseError(`Houve um problema - ${err.message}`, 500);
+      this.handleError(err);
     }
   }
 
@@ -47,6 +37,18 @@ class PayableService {
     return array.reduce((accumulator, object) => {
       return accumulator + object.amount;
     }, 0);
+  }
+  roundNumber(value) {
+    return Math.round(value * 100) / 100;
+  }
+  handleError(err) {
+    if (err instanceof DatabaseError) {
+      throw new DatabaseError(err.message, err.cause);
+    }
+    if (err instanceof DatabaseUnknowError) {
+      throw new DatabaseUnknowError(`Houve um problema`, err.cause);
+    }
+    throw new BadRequestError(`Houve um problema`, err.cause);
   }
 }
 

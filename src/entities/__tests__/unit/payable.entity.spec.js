@@ -30,7 +30,7 @@ describe('PayableEntity unit tests', () => {
       status: 'waiting_funds',
       availability: 'waiting_funds',
     });
-    expect(result).toBeInstanceOf();
+    expect(result).toBeInstanceOf(PayableEntity);
     expect(result.transaction_id).toEqual(100);
     expect(result.amount).toEqual(5);
     expect(result.status).toEqual('waiting_funds');
