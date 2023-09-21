@@ -17,8 +17,8 @@ class PayableService {
     Logger.log('PayableService [GETALL]');
     try {
       return {
-        available: this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE)),
-        waiting_funds: this.reduce(await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS)),
+        available: this.roundNumber(this.reduce(await _payableRepository.getAll(PayableStatusEnum.AVAILABLE))),
+        waiting_funds: this.roundNumber(this.reduce(await _payableRepository.getAll(PayableStatusEnum.WAITING_FUNDS))),
       };
     } catch (err) {
       this.handleError(err);
@@ -37,6 +37,9 @@ class PayableService {
     return array.reduce((accumulator, object) => {
       return accumulator + object.amount;
     }, 0);
+  }
+  roundNumber(value) {
+    return Math.round(value * 100) / 100;
   }
   handleError(err) {
     if (err instanceof DatabaseError) {
